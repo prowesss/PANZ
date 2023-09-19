@@ -1,0 +1,12 @@
+C:\Internship Project\PANZ_auth\PANZ.Service\bin\Debug\net7.0\PANZ.Service.deps.json
+C:\Internship Project\PANZ_auth\PANZ.Service\bin\Debug\net7.0\PANZ.Service.dll
+C:\Internship Project\PANZ_auth\PANZ.Service\bin\Debug\net7.0\PANZ.Service.pdb
+C:\Internship Project\PANZ_auth\PANZ.Service\obj\Debug\net7.0\PANZ.Service.csproj.AssemblyReference.cache
+C:\Internship Project\PANZ_auth\PANZ.Service\obj\Debug\net7.0\PANZ.Service.GeneratedMSBuildEditorConfig.editorconfig
+C:\Internship Project\PANZ_auth\PANZ.Service\obj\Debug\net7.0\PANZ.Service.AssemblyInfoInputs.cache
+C:\Internship Project\PANZ_auth\PANZ.Service\obj\Debug\net7.0\PANZ.Service.AssemblyInfo.cs
+C:\Internship Project\PANZ_auth\PANZ.Service\obj\Debug\net7.0\PANZ.Service.csproj.CoreCompileInputs.cache
+C:\Internship Project\PANZ_auth\PANZ.Service\obj\Debug\net7.0\PANZ.Service.dll
+C:\Internship Project\PANZ_auth\PANZ.Service\obj\Debug\net7.0\refint\PANZ.Service.dll
+C:\Internship Project\PANZ_auth\PANZ.Service\obj\Debug\net7.0\PANZ.Service.pdb
+C:\Internship Project\PANZ_auth\PANZ.Service\obj\Debug\net7.0\ref\PANZ.Service.dll
