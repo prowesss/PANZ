@@ -28,4 +28,10 @@
     <ProjectReference Include="..\PANZ.Service\PANZ.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="PANZ.Service">
+      <HintPath>..\PANZ.Service\bin\Debug\net7.0\PANZ.Service.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

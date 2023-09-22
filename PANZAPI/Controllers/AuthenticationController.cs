@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PANZ.Service.Models;
 using PANZ.Service.Services;
+using PANZAPI.Enum;
 using PANZAPI.Models;
 using PANZAPI.Models.Authentication.Login;
 using PANZAPI.Models.Authentication.SignUp;
@@ -37,9 +38,8 @@ namespace PANZAPI.Controllers
 
         }
 
-        [HttpPost]
-
-        public async Task<IActionResult> Register([FromBody] RegisterUser registerUser, string role)
+        [HttpPost("admin/registerUser")]
+        public async Task<IActionResult> RegisterUserFromAdmin([FromBody] RegisterUser registerUser, string role)
         {
             var userExist = await _userManager.FindByEmailAsync(registerUser.Email);
             if (userExist != null)
@@ -54,6 +54,54 @@ namespace PANZAPI.Controllers
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = registerUser.Username
             };
+
+            if (await _roleManager.RoleExistsAsync(role))
+            {
+                var result = await _userManager.CreateAsync(user, registerUser.Password);
+                if (!result.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                    new Response { Status = "Error", Message = "User failed to create" });
+                }
+                //Add role to the user
+
+                await _userManager.AddToRoleAsync(user, role);
+
+                //Add token to verify the email
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var confirmationLink = Url.Action(nameof(ConfirmEmail), "Authentication", new { token, email = user.Email }, Request.Scheme);
+                var message = new Message(new string[] { user.Email! }, "Confirmation Email link", confirmationLink!);
+                _emailService.SendEmail(message);
+
+                return StatusCode(StatusCodes.Status200OK,
+                    new Response { Status = "Success", Message = $"User created successfully and Email sent to  {user.Email}" });
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new Response { Status = "Error", Message = "This role doesnot exist" });
+            }
+
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Register([FromBody] RegisterUser registerUser)
+        {
+            var userExist = await _userManager.FindByEmailAsync(registerUser.Email);
+            if (userExist != null)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden,
+                    new Response { Status = "Error", Message = "User Already exists!" });
+            }
+
+            IdentityUser user = new()
+            {
+                Email = registerUser.Email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = registerUser.Username
+            };
+            var role = RolesEnum.Member.ToString();
 
             if (await _roleManager.RoleExistsAsync(role))
             {
