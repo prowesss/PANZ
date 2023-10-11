@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../auth.service';
-import { RolesEnum } from 'src/app/utils/role.enum';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-signup',
@@ -11,33 +12,42 @@ import { RolesEnum } from 'src/app/utils/role.enum';
 export class SignupComponent {
 
   signupForm: FormGroup;
-  hide= true;
+  hide = true;
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {
     this.signupForm = this.fb.group({
-      role: [''],
       email: ['', [Validators.required, Validators.email]],
-      username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  onSignup(){
-    if(this.signupForm.valid){
-      this.signupForm.controls['role'].setValue(RolesEnum.MEMBER);
+  onSignup() {
+    if (this.signupForm.valid) {
       this.auth.signUp(this.signupForm.value)
-      .subscribe({
-        next:(res=>{
-          alert(res.message)
-        }),
-        error:(err=>{
-          alert(err?.error.message)
-        })
-      })
+        .subscribe({
+          next: (res => {
+            this.signupForm.reset();
+            this.router.navigate(['login']);
+            this.openSnackBar('Signed up successfully. Please log in.');
+          }),
+          error: (err => {
+            const errorMessage = err?.error?.message || 'An error occurred';
+            alert(errorMessage);
+          })
+        });
 
       console.log(this.signupForm.value);
-    }else{
-      
-    }
+    } 
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+    });
   }
 }

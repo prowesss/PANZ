@@ -8,3 +8,15 @@ export interface userCredential{
     token: string,
     expiration: Date
 }
+
+export interface userInfo{
+    
+}
+
+// export interface signupCredentials{
+//     message(message: any): unknown;
+//     username: string,
+//     email: string,
+//     password: string,
+    
+// }
