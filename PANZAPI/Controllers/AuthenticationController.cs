@@ -1,18 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using PANZ.Service.Models;
 using PANZ.Service.Services;
+<<<<<<< Updated upstream
+=======
+using PANZAPI.Commands.Authentication;
+>>>>>>> Stashed changes
 using PANZAPI.Models;
-using PANZAPI.Models.Authentication.Login;
-using PANZAPI.Models.Authentication.SignUp;
 using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace PANZAPI.Controllers
 {
@@ -20,23 +16,14 @@ namespace PANZAPI.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IEmailService _emailService;
-        private readonly IConfiguration _configuration;
-
-
-        public AuthenticationController(UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager, IConfiguration configuration, IEmailService emailService)
+        private readonly IMediator _mediator;
+  
+        public AuthenticationController(IMediator mediator)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _configuration = configuration;
-            _emailService = emailService;
-
+            _mediator = mediator;
         }
 
+<<<<<<< Updated upstream
         [HttpPost]
 
         public async Task<IActionResult> Register([FromBody] RegisterUser registerUser, string role)
@@ -82,131 +69,81 @@ namespace PANZAPI.Controllers
                     new Response { Status = "Error", Message = "This role doesnot exist" });
             }
 
+=======
+        [HttpPost("admin/registerUser")]
+        public async Task<IActionResult> RegisterUserFromAdmin([FromBody] CreateUserFromAdmin request)
+        {
+            var user = await _mediator.Send(request);
+            await _mediator.Send(new SendConfirmationEmail() { User = user });
+            return NoContent();
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] CreateUser request)
+        {
+            var user = await _mediator.Send(request);
+            await _mediator.Send(new SendConfirmationEmail() { User = user });
+            return Ok("User Registered !!");
+>>>>>>> Stashed changes
         }
 
 
         [HttpGet("ConfirmEmail")]
-        public async Task<IActionResult> ConfirmEmail(String token, string email)
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user != null)
+            var request = new ConfirmEmail()
             {
-                var result = await _userManager.ConfirmEmailAsync(user, token);
-                if (result.Succeeded)
-                {
-                    return StatusCode(StatusCodes.Status200OK,
-                   new Response { Status = "Success", Message = "Email verified successfully" });
-                }
-            }
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                   new Response { Status = "Error", Message = "This user doesnot exist" });
+                Token = token,
+                Email = email
+            };
+            await _mediator.Send(request);
+            return NoContent();
+
         }
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
+        public async Task<IActionResult> Login([FromBody] LoginUser request)
         {
-            var user = await _userManager.FindByNameAsync(loginModel.Username);
-
-            if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))
-            {
-                var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-                var userRoles = await _userManager.GetRolesAsync(user);
-                foreach (var role in userRoles)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, role));
-                }
-                var jwtToken = GetToken(authClaims);
-
-                return Ok(new
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
-                    expiration = jwtToken.ValidTo
-                });
-            }
-            return Unauthorized();
+            var userToken = await _mediator.Send(request);
+            return Ok(userToken);
         }
+
 
         [HttpPost]
         [AllowAnonymous]
         [Route("forgot-password")]
         public async Task<IActionResult> ForgotPassword([Required] string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user != null)
+            var command = new ForgotPassword
             {
-                
-               var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var forgotPasswordlink = Url.Action(nameof(ResetPassword), "Authentication", new { token, email = user.Email }, Request.Scheme);
-                var message = new Message(new string[] { user.Email! }, "Forgot Password Email link", forgotPasswordlink!);
-                _emailService.SendEmail(message);
-
-
-                return StatusCode(StatusCodes.Status200OK,
-                    new Response { Status = "Success", Message = $"Password change request sent to  {user.Email}.Please verfiy." });
+                Email = email,
+                Scheme = HttpContext.Request.Scheme,
+                Host = HttpContext.Request.Host.Value
+            };
+            try
+            {
+                await _mediator.Send(command);
+                return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = $"Password change request sent to {email}. Please verify." });
             }
-
-            return StatusCode(StatusCodes.Status400BadRequest,
-                new Response { Status = "Error", Message = $"User with email {email} not found" });
-        }
-
-        [HttpGet("reset-password")]
-        public async Task<IActionResult>ResetPassword(string token, string email)
-        {
-            var model = new ResetPassword { Token = token, Email = email };
-
-            return Ok(new
+            catch
             {
-                model
-            });
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error" });
+            }
         }
 
         [HttpPost]
         [AllowAnonymous]
         [Route("reset-password")]
 
-        public async Task<IActionResult> ResetPassword(ResetPassword resetPassword)  
+        public async Task<IActionResult> ResetPassword(ResetUserPassword request)
         {
-            var user = await _userManager.FindByEmailAsync(resetPassword.Email);
-            if(user != null)
-            {
-                var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPassword.Token, resetPassword.Password);
-                if(!resetPassResult.Succeeded)
-                {
-                    foreach (var error in  resetPassResult.Errors)
-                    {
-                        ModelState.AddModelError(error.Code, error.Description);
-                    }
-                    return Ok(ModelState);
-                }
-
-                return StatusCode(StatusCodes.Status200OK,
-                   new Response { Status = "Success", Message = $"Password has been changed" });
-            }
-            return StatusCode(StatusCodes.Status400BadRequest,
-               new Response { Status = "Error", Message = $"Couldnot send email please try again." });
+            var response = await _mediator.Send(request);
+            return Ok();
         }
 
 
-        private JwtSecurityToken GetToken(List<Claim> authClaims)
-        {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
-            var token = new JwtSecurityToken(
-                issuer: _configuration["JWT:Validissuer"],
-                audience: _configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddHours(3),
-                claims: authClaims,
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
-
-            return token;
-
-        }
 
 
     }
