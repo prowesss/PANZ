@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,14 @@ using Microsoft.OpenApi.Models;
 using PANZ.Service.Models;
 using PANZ.Service.Services;
 using PANZAPI.Models;
+using PANZAPI.Repositories.MemberPaymentStatus;
+using PANZAPI.Repositories.Members;
+using PANZAPI.Repositories.MembershipActivity;
+using PANZAPI.Repositories.MembershipStatuses;
+using PANZAPI.Repositories.MembershipTypes;
+using PANZAPI.Repositories.Role;
+using PANZAPI.Repositories.User;
+using PANZAPI.Setup;
 using System.Reflection;
 using System.Text;
 
@@ -35,7 +44,8 @@ builder.Services.Configure<IdentityOptions>(
     options => options.SignIn.RequireConfirmedEmail = true);
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options => options.TokenLifespan = TimeSpan.FromHours(10));
-
+builder.Services.ConfigureOptions<CustomExceptionOptions>();
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 //Adding Authentication
 
 builder.Services.AddAuthentication(options =>
@@ -62,6 +72,14 @@ builder.Services.AddAuthentication(options =>
 var emailConfig = configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
 builder.Services.AddSingleton(emailConfig);
 builder.Services.AddScoped<IEmailService,  EmailService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IMembershipActivityRepository, MembershipActivityRepository>();
+builder.Services.AddScoped<IMembersRepository, MembersRepository>();
+builder.Services.AddScoped<IMemberPaymentStatusRepository, MemberPaymentStatusRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IMembershipStatusRepository, MembershipStatusRepository>();
+builder.Services.AddScoped<IMembershipTypeRepository, MembershipTypeRepository>();
+
 
 // Add services to the container.
 
@@ -116,6 +134,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseCors("MyPolicy");
 
