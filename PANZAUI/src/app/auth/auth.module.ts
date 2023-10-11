@@ -6,12 +6,17 @@ import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+import { PasswordResetComponent } from './components/password-reset/password-reset.component';
+import { NavComponent } from './components/nav/nav.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    SignupComponent],
+    SignupComponent,
+    PasswordResetComponent,
+    NavComponent,
+    ],
   imports: [
     CommonModule,
     AuthRoutingModule,
@@ -20,7 +25,8 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   exports: [
     SignupComponent,
-    LoginComponent
+    LoginComponent,
+    NavComponent
   ],
 })
 export class AuthModule { }
