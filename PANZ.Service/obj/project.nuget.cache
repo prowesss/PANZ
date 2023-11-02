@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qttHcvCpup+0ghEHyYFHqSKF0ibGC2gNmeu+tF2AKWElCyc/XP3XC2BbgPa8vXrziHWHHbX6RPLiSiptZ7g9pQ==",
+  "dgSpecHash": "Hb7FKeo+bdbXYTTAPBj3tbPX/HmOBfWvcBE9kptcqSh0pozDwqCIxrccsdARJ5549xezB8amFl3jOyRor2t6GQ==",
   "success": true,
-  "projectFilePath": "C:\\Internship Project\\PANZ_auth\\PANZ.Service\\PANZ.Service.csproj",
+  "projectFilePath": "C:\\Internship Project\\ProwessGIT\\PANZ\\PANZ.Service\\PANZ.Service.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\mailkit\\3.2.0\\mailkit.3.2.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\6.0.0\\microsoft.extensions.dependencyinjection.6.0.0.nupkg.sha512",

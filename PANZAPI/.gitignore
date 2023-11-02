@@ -2,6 +2,19 @@
 ## Ignore the bin and obj directories
 bin/
 obj/
+Debug/
+obj/Debug/
+
+
+
+# Build results
+
+# [Dd]ebug/
+# [Rr]elease/
+# x64/
+# build/
+# [Bb]in/
+# [Oo]bj/
 
 # Visual Studio files
 .vscode/
