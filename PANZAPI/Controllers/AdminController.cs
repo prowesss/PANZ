@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace PANZAPI.Controllers
 {
@@ -9,10 +11,18 @@ namespace PANZAPI.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-        [HttpGet("members")]
-        public IEnumerable<string> Get()
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public AdminController(UserManager<IdentityUser> userManager)
         {
-            return new List<string> { "Ram", "Hari", "Shyam" };
+            _userManager = userManager;
+        }
+
+        [HttpGet("members")]
+        public async Task<IEnumerable<string>> Get()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            return (IEnumerable<string>)users;
         }
     }
 }

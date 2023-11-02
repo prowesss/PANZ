@@ -2,6 +2,8 @@ import { Component, OnInit} from '@angular/core';
 import { FormBuilder, Validators} from '@angular/forms';
 import { AuthService } from '../../auth.service';
 import { loginCredential } from '../../models/auth.model';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +13,13 @@ import { loginCredential } from '../../models/auth.model';
 export class LoginComponent implements OnInit{
   invalidLogin?: boolean;
   loginForm: any;
+  loggedIn?: boolean;
   
-  constructor(private fb: FormBuilder, private authService: AuthService){}
+  constructor(
+    private fb: FormBuilder, 
+    private authService: AuthService, 
+    private router: Router,  
+    private snackBar: MatSnackBar){}
 
   ngOnInit(): void {
     this.buildForm();
@@ -33,8 +40,11 @@ export class LoginComponent implements OnInit{
    
     this.authService.login(credentials).subscribe({
       next:(data) => {
-        console.log('Success');
-         //go to home screen
+        this.loginForm.reset();
+        this.authService.storeToken(data.token);
+        this.router.navigate(['dashboard']);
+        this.openSnackBar('Login Successful');
+      
       },
       error(err) {
         console.error("Error", err);
@@ -43,6 +53,10 @@ export class LoginComponent implements OnInit{
    
   }
 
-
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+    });
+  }
 
 }

@@ -4,6 +4,8 @@ namespace PANZAPI.Models
 {
     public class MembershipActivityLog
     {
+       
+
         public Guid Id { get; set; }
 
         [ForeignKey("MemberId")]
@@ -29,5 +31,25 @@ namespace PANZAPI.Models
         public DateTime StartDate { get; set; }
 
         public DateTime ExpireDate { get; set; }
+
+        public MembershipActivityLog(
+            Guid memberId,
+            Guid paymentMethodId,
+            Guid membershipStatusId,
+            Guid membershipPaymentStatusId,
+            Guid membershipTypeId,
+            DateTime startDate,
+            DateTime expireDate)
+        {
+            MemberId = memberId;
+            PaymentMethodId = paymentMethodId;
+            MembershipStatusId = membershipStatusId;
+            MembershipPaymentStatusId = membershipPaymentStatusId;
+            MembershipTypeId = membershipTypeId;
+            StartDate = startDate;
+            ExpireDate = expireDate;
+
+        }
+
     }
 }

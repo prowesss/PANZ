@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Observable} from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { loginCredential, userCredential } from './models/auth.model';
+import { loginCredential,userCredential } from './models/auth.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,32 +12,33 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   signUp(userObj: any) {
-    return this.http.post<any>(`${this.baseUrl}register`, userObj)
+    let user: any = {
+      email: userObj.email,
+      password: userObj.password
+    }
+    return this.http.post<any>(`${this.baseUrl}register`, user)
   }
 
   login(userObj: loginCredential): Observable<userCredential> {
-    return this.http.post<userCredential>(`${this.baseUrl}login`, userObj).pipe(
-      tap((response) => {
-        if (response.token) {
-          // Store the token in local storage
-          localStorage.setItem('jwtToken', response.token);
-        }
-      })
-    );
+    return this.http.post<userCredential>(`${this.baseUrl}login`, userObj)
+  }
+
+  storeToken(tokenValue: string){
+    localStorage.setItem('token', tokenValue)
   }
 
   logout(): void {
     // Remove the token from local storage upon logout
-    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('token');
   }
 
   isLoggedIn(): boolean {
     // Check if the token exists in local storage to determine if the user is logged in
-    return !!localStorage.getItem('jwtToken');
+    return !!localStorage.getItem('token');
   }
 
-  getToken(): string | null {
+  getToken() {
     // Retrieve the token from local storage
-    return localStorage.getItem('jwtToken');
+    return localStorage.getItem('token');
   }
 }
