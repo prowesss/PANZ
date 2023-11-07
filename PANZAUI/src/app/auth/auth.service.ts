@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable} from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { loginCredential,userCredential } from './models/auth.model';
 
 @Injectable({

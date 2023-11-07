@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   templateUrl: './edit-user.component.html',
@@ -6,4 +6,5 @@ import { Component } from '@angular/core';
 })
 export class EditUserComponent {
 
-}
+  }
+

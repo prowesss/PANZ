@@ -1,24 +1,44 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/auth/auth.service';
+import { UserManageService } from '../user-manage.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { User } from 'src/app/models/user.model';
+
 
 @Component({
   templateUrl: './view-user.component.html',
   styleUrls: ['./view-user.component.scss']
 })
-export class ViewUserComponent implements OnInit {
-  users: any;
+export class ViewUserComponent implements OnInit{
 
-  constructor(private http: HttpClient) {}
-   
-  ngOnInit() {
-   this.getUsers();
+  public user: User | undefined ;
+  public isLoading = false;
+
+  constructor(
+    private userManageService: UserManageService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
+
+
+  ngOnInit(): void {
+    this.isLoading = true;
+    this.route.params.subscribe(params => {
+      const userId = params['id'];
+      this.getUser(userId);
+    });
+  }
+
+
+  getUser(userId: any) {
+    this.userManageService.getUserById(userId).subscribe({
+      next:(user: User) => {
+        this.user = user;
+        this.isLoading = true;
+      }
+    });
+  }
+
+  onBackClick(){
+    this.router.navigate(['admin/users'])
+  }
 }
-
-getUsers(){
-  this.http.get('https://localhost:7106/api/user/list').subscribe(response => {
-    this.users= response;
-  }, error => {
-    console.log(error);
-  })
-}}
