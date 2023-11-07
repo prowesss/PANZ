@@ -11,6 +11,7 @@ import { AdminNavbarComponent } from './components/admin-navbar/admin-navbar.com
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
 import { MaterialModule } from '../shared/material.module';
 import { SharedModule } from '../shared/shared.module';
+import { DeleteUserComponent } from './pages/user-manage/delete-user/delete-user.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { SharedModule } from '../shared/shared.module';
     ViewUserComponent,
     DashboardComponent,
     AdminNavbarComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    DeleteUserComponent
   ],
   imports: [
     CommonModule,
