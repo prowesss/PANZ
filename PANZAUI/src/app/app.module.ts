@@ -8,6 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminModule } from './admin/admin.module';
 import { HomeComponent } from './home/home.component';
+import { MemberModule } from './member/member.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { HomeComponent } from './home/home.component';
     HttpClientModule,
     AuthModule,
     AdminModule,
+    MemberModule,
     SharedModule
   ],
   providers: [],

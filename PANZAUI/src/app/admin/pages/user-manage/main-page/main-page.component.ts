@@ -55,7 +55,15 @@ export class MainPageComponent  implements OnInit {
   }
 
   deleteUser(id: any) {
-   this.userManageService.deleteUser(id);
+    this.userManageService.deleteUser(id).subscribe(
+      () => {
+        this.users = this.users.filter(member => member.id !== id);
+        this.dataSource = new MatTableDataSource(this.users);
+      },
+      (error) => {
+        console.error('Error deleting user:', error);
+      }
+    );
   }
 
   onEdit(user: User) {

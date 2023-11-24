@@ -42,7 +42,8 @@ export class LoginComponent implements OnInit{
       next:(data) => {
         this.loginForm.reset();
         this.authService.storeToken(data.token);
-        this.router.navigate(['dashboard']);
+        this.authService.setUsername(credentials.username);
+        this.router.navigate(['member/create']);
         this.openSnackBar('Login Successful');
       
       },

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserManageService } from 'src/app/admin/pages/user-manage/user-manage.service';
 
 @Component({
   selector: 'app-nav',
@@ -7,13 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit{
 loggedIn = false;
-currentUser= "avinash";
+username: string = '';
+currentUser= "";
 
-public NavComponent(){
-}
+constructor(private userService: UserManageService) { }
 
 ngOnInit(): void {
-  
 }
 
 logout(){

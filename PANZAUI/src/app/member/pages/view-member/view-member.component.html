@@ -1,0 +1,132 @@
+<!-- member-view.component.html -->
+
+<div class="panz-admin-body">
+  <mat-card class="member-details-card">
+    <mat-card-header class="header-content">
+      <mat-card-title class="title">Member Details</mat-card-title>
+      <button mat-icon-button color="basic" (click)="onBackClick()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </mat-card-header>
+
+    <mat-card-content class="content-container">
+      <!-- Left Section - Main Member Details -->
+      <div class="left-section">
+        <div class="left-section-inner">
+          <h2>Personal Details</h2>
+          <img [src]="member?.imageUrl" alt="Member Image" class="member-image" />
+          <table class="details-table">
+            <tr>
+              <th>Name</th>
+              <td>{{ member?.firstName }} {{ member?.lastName }}</td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td>{{ member?.email }}</td>
+            </tr>
+            <tr>
+              <th>Gender</th>
+              <td>{{ member?.gender }}</td>
+            </tr>
+            <tr>
+              <th>Residency Status</th>
+              <td>{{ member?.residencyStatus }}</td>
+            </tr>
+            <tr>
+              <th>Phone</th>
+              <td>{{ member?.phone }}</td>
+            </tr>
+            <tr>
+              <th>Willing to Volunteer</th>
+              <td>{{ member?.willingToVolunteer ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+              <th>Address</th>
+              <td>{{ member?.address }}, {{ member?.suburb }}, {{ member?.city }}</td>
+            </tr>
+            <tr>
+              <th>Company Name</th>
+              <td>{{ member?.companyName }}</td>
+            </tr>
+            <tr>
+              <th>Job Title</th>
+              <td>{{ member?.jobTitle }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right Section - Member Status and Payment Method -->
+      <div class="right-section">
+        <div class="right-section-inner">
+          <h2>Membership Details</h2>
+          <table class="details-table">
+            <tr>
+              <th>Payment Method</th>
+              <td>{{ member?.paymentMethodUsed }}</td>
+            </tr>
+            <tr>
+              <th>Membership Status</th>
+              <td>{{ member?.membershipStatus }}</td>
+            </tr>
+            <tr>
+              <th>Membership Payment Status</th>
+              <td>{{ member?.membershipPaymentStatus }}</td>
+            </tr>
+            <tr>
+              <th>Membership Type</th>
+              <td>{{ member?.membershipType }}</td>
+            </tr>
+            <tr>
+              <th>Membership Start Date</th>
+              <td>{{ member?.startDate | date: 'dd MMM, yyyy' }}</td>
+            </tr>
+            <tr>
+              <th>Membership Expire Date</th>
+              <td>{{ member?.expireDate | date: 'dd MMM, yyyy' }}</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Bank payment details -->
+       <div *ngIf="member?.paymentMethodUsed === 'Bank'" class="bank-details-section">
+        <div class="bank-inner">
+
+          <h2>Complete Payment</h2>
+          <p class="payment-instructions">To activate your membership, kindly complete your payment via bank transfer to the following bank details:
+            <strong>
+              Please include the reference number provided below when making the transaction.
+            </strong> </p>
+          <hr class="separator">
+          <table class="details-table">
+          <tr>
+            <th>Bank Name</th>
+            <td>Anz</td>
+          </tr>
+          <tr>
+            <th>Account Holder Name</th>
+            <td>Panz</td>
+          </tr>
+          <tr>
+            <th>Account Number</th>
+            <td>1234-23342-2232-00</td>
+          </tr>
+          <tr>
+            <th>Reference</th>
+            <td>{{member?.paymentReference}}</td>
+          </tr>
+          <!-- Add any additional bank-related details here -->
+        </table>
+        </div>
+        
+        </div>
+      </div>
+       
+    </mat-card-content>
+    
+    <mat-card-actions>
+      <button mat-button color="primary">Edit</button>
+      <button mat-button color="warn">Delete</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

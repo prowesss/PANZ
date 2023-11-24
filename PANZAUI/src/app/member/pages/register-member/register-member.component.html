@@ -1,0 +1,124 @@
+<div class="panz-admin-body">
+
+  <app-membership-type-card *ngIf="selectedMembershipType === undefined" [membershipTypes]="membershipTypes"
+    (onMembershipTypeSelect)="selectMembershipType($event)"></app-membership-type-card>
+
+
+  <div *ngIf="selectedMembershipType !== undefined">
+    <mat-card>
+      <mat-card-content class="header">
+        <span class="title">Membership Registration for Membership Type: </span>
+        <mat-chip-listbox aria-label="Membership Type selection">
+          <mat-chip-option color="accent" selected (selectionChange)="removeSelectedMembershipType()">{{
+            selectedMembershipType.name }}</mat-chip-option>
+        </mat-chip-listbox>
+      </mat-card-content>
+    </mat-card>
+    <mat-stepper [linear]="false" #stepper>
+      <mat-step [stepControl]="personalInfoFormGroup">
+        <form [formGroup]="personalInfoFormGroup" class="form-container">
+          <ng-template matStepLabel>Personal Info</ng-template>
+          <mat-form-field>
+            <input matInput formControlName="email" placeholder="Email">
+            <mat-error *ngIf="personalInfoFormGroup.get('email')?.hasError('required')">Email is required.</mat-error>
+            <mat-error *ngIf="personalInfoFormGroup.get('email')?.hasError('email')">Invalid email address.</mat-error>
+          </mat-form-field>
+          <div class="name-container">
+            <mat-form-field>
+              <input matInput formControlName="firstName" placeholder="First Name">
+              <mat-error *ngIf="personalInfoFormGroup.get('firstName')?.hasError('required')">First Name is
+                required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput formControlName="lastName" placeholder="Last Name">
+              <mat-error *ngIf="personalInfoFormGroup.get('lastName')?.hasError('required')">Last Name is
+                required.</mat-error>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field>
+            <input matInput formControlName="imageUrl" placeholder="Image URL">
+          </mat-form-field>
+          <div class="gender-residency-container">
+            <mat-form-field>
+              <mat-select formControlName="gender" placeholder="Gender">
+                <mat-option value="Male">Male</mat-option>
+                <mat-option value="Female">Female</mat-option>
+              </mat-select>
+              <mat-error *ngIf="personalInfoFormGroup.get('gender')?.hasError('required')">Gender is
+                required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-select formControlName="residencyStatus" placeholder="Residency Status">
+                <mat-option value="Citizen">Citizen</mat-option>
+                <mat-option value="Permanent Resident">Permanent Resident</mat-option>
+                <mat-option value="Visitor">Visitor</mat-option>
+              </mat-select>
+              <mat-error *ngIf="personalInfoFormGroup.get('residencyStatus')?.hasError('required')">Residency Status is
+                required.</mat-error>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field>
+            <input matInput formControlName="phone" placeholder="Phone" [pattern]="'^[0-9]*$'">
+            <mat-error *ngIf="personalInfoFormGroup.get('phone')?.hasError('pattern')">Invalid phone number.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput formControlName="address" placeholder="Address">
+          </mat-form-field>
+          <div class="suburb-city-container">
+            <mat-form-field>
+              <input matInput formControlName="suburb" placeholder="Suburb">
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput formControlName="city" placeholder="City">
+            </mat-form-field>
+          </div>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="workFormGroup" label="Work Info">
+        <form [formGroup]="workFormGroup" class="form-container">
+          <mat-form-field>
+            <input matInput formControlName="companyName" placeholder="Company Name">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput formControlName="jobTitle" placeholder="Job Title">
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="membershipFormGroup" label="Membership Info">
+        <form [formGroup]="membershipFormGroup" class="form-container">
+          <mat-checkbox formControlName="willingToVolunteer">Willing to Volunteer</mat-checkbox>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext (click)="register()">Submit</button>
+            
+          </div>
+        </form>
+        
+      </mat-step>
+      <mat-step *ngIf="selectedMembershipType && selectedMembershipType.name !== 'Honorary'">
+        <ng-template matStepLabel>Done</ng-template>
+        <p>You are now done. Proceed to payment to complete your registration</p>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button [disabled]="!currentMember" (click)="openCheckoutPopup()" *ngIf="selectedMembershipType && selectedMembershipType.name !== 'Honorary'">Payment</button>
+          <!-- <app-member-checkout [paymentMethods]="paymentMethods"[selectedMembershipType]="selectedMembershipType"></app-member-checkout> -->
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </div>
+
+</div>

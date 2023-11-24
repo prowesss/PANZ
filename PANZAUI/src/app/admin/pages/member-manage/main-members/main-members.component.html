@@ -1,0 +1,132 @@
+<h1>Manage Members</h1>
+<div class="panz-admin-body">
+    <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+    </mat-form-field>
+    
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element;let i = index"> {{i + 1}} </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+
+        <!-- Full Name Column -->
+        <ng-container matColumnDef="fullName">
+            <th mat-header-cell *matHeaderCellDef> Full Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.firstName + ' ' + element.lastName}} </td>
+        </ng-container>
+
+
+        <!-- Image URL Column -->
+        <ng-container matColumnDef="imageUrl">
+            <th mat-header-cell *matHeaderCellDef> Image URL </th>
+            <td mat-cell *matCellDef="let element"> {{element.imageUrl}} </td>
+        </ng-container>
+
+        <!-- Address Column -->
+        <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef> Address </th>
+            <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+
+        <!-- Suburb Column -->
+        <ng-container matColumnDef="suburb">
+            <th mat-header-cell *matHeaderCellDef> Suburb </th>
+            <td mat-cell *matCellDef="let element"> {{element.suburb}} </td>
+        </ng-container>
+
+        <!-- City Column -->
+        <ng-container matColumnDef="city">
+            <th mat-header-cell *matHeaderCellDef> City </th>
+            <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+        </ng-container>
+
+        <!-- Company Name Column -->
+        <ng-container matColumnDef="companyName">
+            <th mat-header-cell *matHeaderCellDef> Company Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.companyName}} </td>
+        </ng-container>
+
+        <!-- Job Title Column -->
+        <ng-container matColumnDef="jobTitle">
+            <th mat-header-cell *matHeaderCellDef> Job Title </th>
+            <td mat-cell *matCellDef="let element"> {{element.jobTitle}} </td>
+        </ng-container>
+
+        <!-- Payment Method ID Column -->
+        <ng-container matColumnDef="paymentMethod">
+            <th mat-header-cell *matHeaderCellDef> Payment Method </th>
+            <td mat-cell *matCellDef="let element"> {{element.paymentMethodUsed}} </td>
+        </ng-container>
+
+        <!-- Payment Reference Column -->
+        <ng-container matColumnDef="paymentReference">
+            <th mat-header-cell *matHeaderCellDef> Payment Reference </th>
+            <td mat-cell *matCellDef="let element"> {{element.paymentReference}} </td>
+        </ng-container>
+
+        <!-- Payment Session ID Column -->
+        <ng-container matColumnDef="paymentSessionId">
+            <th mat-header-cell *matHeaderCellDef> Payment Session </th>
+            <td mat-cell *matCellDef="let element"> {{element.paymentSessionId}} </td>
+        </ng-container>
+
+        <!-- Membership Status ID Column -->
+        <ng-container matColumnDef="membershipStatus">
+            <th mat-header-cell *matHeaderCellDef> Membership Status </th>
+            <td mat-cell *matCellDef="let element"> {{element.membershipStatus}} </td>
+        </ng-container>
+
+        <!-- Membership Payment Status ID Column -->
+        <ng-container matColumnDef="membershipPaymentStatus">
+            <th mat-header-cell *matHeaderCellDef> Membership Payment Status </th>
+            <td mat-cell *matCellDef="let element"> {{element.membershipPaymentStatus}} </td>
+        </ng-container>
+
+        <!-- Membership Type ID Column -->
+        <ng-container matColumnDef="membershipType">
+            <th mat-header-cell *matHeaderCellDef> Membership Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.membershipType}} </td>
+        </ng-container>
+
+        <!-- Start Date Column -->
+        <ng-container matColumnDef="startDate">
+            <th mat-header-cell *matHeaderCellDef> Start Date </th>
+            <td mat-cell *matCellDef="let element"> {{ element.startDate | date: 'dd MMM, yyyy' }} </td>
+
+        </ng-container>
+
+        <!-- Expire Date Column -->
+        <ng-container matColumnDef="expireDate">
+            <th mat-header-cell *matHeaderCellDef> Expire Date </th>
+            <td mat-cell *matCellDef="let element"> {{ element.expireDate | date: 'dd MMM, yyyy' }} </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element">
+                <app-crud-action (viewClick)="onView(element)" (editClick)="onEdit(element)"
+                    (deleteClick)="onDelete(element)"></app-crud-action>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">No data matching the filter "{{input.value}}"
+            </td>
+        </tr>
+    </table>
+</div>

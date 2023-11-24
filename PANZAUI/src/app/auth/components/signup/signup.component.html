@@ -4,7 +4,7 @@
             <mat-card-title>Sign Up</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+            <form [formGroup]="signupForm" (ngSubmit)="onSignup()" autocomplete="off">
                 <div fxLayout="column" fxLayoutGap="16px">                
                     <mat-form-field appearance="outline">
                         <mat-label>Email:</mat-label>

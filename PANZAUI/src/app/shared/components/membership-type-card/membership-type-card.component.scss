@@ -1,0 +1,8 @@
+div.container {
+    display: flex;
+    flex-wrap: wrap;
+
+    .inner-container {
+        padding: 1rem 1rem;
+    }
+}

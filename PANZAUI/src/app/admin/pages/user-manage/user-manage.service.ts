@@ -35,8 +35,19 @@ export class UserManageService {
       });
   }
 
-  deleteUser(id: string) {
-    return this.http.delete('https://localhost:7106/api/user/' + id);
+
+
+  deleteUser(id: String): Observable<any> {
+    return this.http.delete<any>('https://localhost:7106/api/user/' + id,
+      {
+        headers: this.getHeaders()
+      });
+
+  }
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
   }
 
 }
