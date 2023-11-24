@@ -4,6 +4,7 @@ export interface loginCredential{
 }
 
 export interface userCredential{
+    id?:string,
     username?:string,
     token: string,
     expiration: Date

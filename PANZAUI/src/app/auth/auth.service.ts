@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable} from 'rxjs';
-import { loginCredential,userCredential } from './models/auth.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { loginCredential, userCredential } from './models/auth.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private usernameSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  username$ = this.usernameSubject.asObservable();
+
   private baseUrl: string = "https://localhost:7106/api/authentication/"
   constructor(private http: HttpClient) { }
 
@@ -22,7 +25,15 @@ export class AuthService {
     return this.http.post<userCredential>(`${this.baseUrl}login`, userObj)
   }
 
-  storeToken(tokenValue: string){
+  setUsername(username: string) {
+    this.usernameSubject.next(username);
+  }
+  
+  getUsername(): string {
+    return this.usernameSubject.value;
+  }
+
+  storeToken(tokenValue: string) {
     localStorage.setItem('token', tokenValue)
   }
 
@@ -40,4 +51,6 @@ export class AuthService {
     // Retrieve the token from local storage
     return localStorage.getItem('token');
   }
+
+
 }
