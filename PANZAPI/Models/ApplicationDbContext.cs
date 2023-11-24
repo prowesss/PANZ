@@ -46,6 +46,12 @@ namespace PANZAPI.Models
                 .WithMany()
                 .HasForeignKey(m => m.MembershipTypeId);
 
+            builder.Entity<Member>()
+       .HasOne(m => m.PaymentMethod)  // Navigation property
+       .WithMany()  // Since PaymentMethod can be referenced by multiple members
+       .HasForeignKey(m => m.PaymentMethodId)  // Foreign key property
+       .IsRequired(false);
+
             builder.Entity<MembershipActivityLog>()
                 .HasOne(mal => mal.Member)
                 .WithMany()

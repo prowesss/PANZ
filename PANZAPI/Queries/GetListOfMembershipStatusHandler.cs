@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PANZAPI.Models;
+using PANZAPI.ModelsSummary;
 using PANZAPI.Repositories.MembershipStatuses;
 
 namespace PANZAPI.Queries
 {
-    public class GetListOfMembershipStatusHandler : IRequestHandler<GetListOfMembershipStatus, IEnumerable<MembershipStatus>>
+    public class GetListOfMembershipStatusHandler : IRequestHandler<GetListOfMembershipStatus, IEnumerable<MembershipStatusSummary>>
     {
         private readonly IMembershipStatusRepository _membershipStatusRepository;
 
@@ -14,9 +15,10 @@ namespace PANZAPI.Queries
             _membershipStatusRepository = membershipStatusRepository;
         }
 
-        public async Task<IEnumerable<MembershipStatus>> Handle(GetListOfMembershipStatus request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<MembershipStatusSummary>> Handle(GetListOfMembershipStatus request, CancellationToken cancellationToken)
         {
-            return await _membershipStatusRepository.GetMembershipStatusesAsync();
+            var membershipStatus =  await _membershipStatusRepository.GetMembershipStatuses();
+            return membershipStatus.Select(x => new MembershipStatusSummary(x));
         }
     }
 

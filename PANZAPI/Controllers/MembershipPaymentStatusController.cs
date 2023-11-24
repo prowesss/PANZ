@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PANZAPI.Commands.MembershipPaymentStatus;
 using PANZAPI.Models;
+using PANZAPI.ModelsSummary;
 using PANZAPI.Queries;
 
 namespace PANZAPI.Controllers
@@ -18,7 +19,7 @@ namespace PANZAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<MembershipPaymentStatus>> Get()
+        public async Task<IEnumerable<MembershipPaymentStatusSummary>> Get()
         {
             var query = new GetListOfMembershipPaymentStatus();
             return await _mediator.Send(query);

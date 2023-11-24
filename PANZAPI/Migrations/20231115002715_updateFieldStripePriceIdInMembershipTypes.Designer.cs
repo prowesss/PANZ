@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PANZAPI.Models;
 
@@ -11,9 +12,11 @@ using PANZAPI.Models;
 namespace PANZAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231115002715_updateFieldStripePriceIdInMembershipTypes")]
+    partial class updateFieldStripePriceIdInMembershipTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -255,9 +258,8 @@ namespace PANZAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
@@ -304,9 +306,8 @@ namespace PANZAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ResidencyStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ResidencyStatus")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -334,7 +335,7 @@ namespace PANZAPI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Members", (string)null);
+                    b.ToTable("Members");
                 });
 
             modelBuilder.Entity("PANZAPI.Models.MembershipActivityLog", b =>
@@ -376,7 +377,7 @@ namespace PANZAPI.Migrations
 
                     b.HasIndex("PaymentMethodId");
 
-                    b.ToTable("MembershipActivityLogs", (string)null);
+                    b.ToTable("MembershipActivityLogs");
                 });
 
             modelBuilder.Entity("PANZAPI.Models.MembershipPaymentStatus", b =>
@@ -410,7 +411,7 @@ namespace PANZAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MembershipPaymentStatus", (string)null);
+                    b.ToTable("MembershipPaymentStatus");
                 });
 
             modelBuilder.Entity("PANZAPI.Models.MembershipStatus", b =>
@@ -444,7 +445,7 @@ namespace PANZAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MembershipStatus", (string)null);
+                    b.ToTable("MembershipStatus");
                 });
 
             modelBuilder.Entity("PANZAPI.Models.MembershipType", b =>
@@ -484,7 +485,7 @@ namespace PANZAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MembershipTypes", (string)null);
+                    b.ToTable("MembershipTypes");
                 });
 
             modelBuilder.Entity("PANZAPI.Models.PaymentMethod", b =>
@@ -520,7 +521,7 @@ namespace PANZAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentMethods", (string)null);
+                    b.ToTable("PaymentMethods");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

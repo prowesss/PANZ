@@ -12,9 +12,9 @@ namespace PANZAPI.Repositories.MembershipStatuses
             _context = context;
         }
 
-        public async Task<IEnumerable<MembershipStatus>> GetMembershipStatusesAsync()
+        public async Task<IEnumerable<MembershipStatus>> GetMembershipStatuses()
         {
-            return await _context.MembershipStatus.ToListAsync();
+            return _context.MembershipStatus.ToList();
         }
 
         public async Task<MembershipStatus> GetMembershipStatusByIdAsync(Guid id)

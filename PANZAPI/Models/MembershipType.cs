@@ -17,5 +17,7 @@ namespace PANZAPI.Models
         public decimal Cost { get; set; }
 
         public int NoOfYears { get; set; }
+
+        public string StripePriceId { get; set; }
     }
 }
