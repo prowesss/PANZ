@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
@@ -17,18 +17,18 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Stripe" Version="1.12.0" />
+    <PackageReference Include="Stripe.net" Version="43.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\PaymentMethods\" />
     <Folder Include="Specifications\User\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PANZ.Service\PANZ.Service.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="PANZ.Service">
       <HintPath>..\PANZ.Service\bin\Debug\net7.0\PANZ.Service.dll</HintPath>

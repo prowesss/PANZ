@@ -1,10 +1,11 @@
 ﻿using MediatR;
 using PANZAPI.Models;
+using PANZAPI.ModelsSummary;
 using PANZAPI.Repositories.Members;
 
 namespace PANZAPI.Queries
 {
-    public class GetListOfMemberHandler : IRequestHandler<GetListOfMember, IEnumerable<Member>>
+    public class GetListOfMemberHandler : IRequestHandler<GetListOfMember, IEnumerable<MemberSummary>>
     {
         private readonly IMembersRepository _memberRepo;
 
@@ -13,9 +14,11 @@ namespace PANZAPI.Queries
             _memberRepo = memberRepo;
         }
 
-        public async Task<IEnumerable<Member>> Handle(GetListOfMember request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<MemberSummary>> Handle(GetListOfMember request, CancellationToken cancellationToken)
         {
-            return await _memberRepo.GetListOfMembers();
+            var members =  await _memberRepo.GetListOfMembers();
+
+            return members.Select(x => new MemberSummary(x));
         }
     }
 }

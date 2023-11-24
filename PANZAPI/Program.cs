@@ -12,9 +12,11 @@ using PANZAPI.Repositories.Members;
 using PANZAPI.Repositories.MembershipActivity;
 using PANZAPI.Repositories.MembershipStatuses;
 using PANZAPI.Repositories.MembershipTypes;
+using PANZAPI.Repositories.PaymentMethods;
 using PANZAPI.Repositories.Role;
 using PANZAPI.Repositories.User;
 using PANZAPI.Setup;
+using Stripe;
 using System.Reflection;
 using System.Text;
 
@@ -31,6 +33,10 @@ var configuration = new ConfigurationBuilder()
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("ConnStr")
     ));
+
+//For Stripe
+
+//builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
 //For Identity
 
@@ -78,6 +84,7 @@ builder.Services.AddScoped<IMembersRepository, MembersRepository>();
 builder.Services.AddScoped<IMemberPaymentStatusRepository, MemberPaymentStatusRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IMembershipStatusRepository, MembershipStatusRepository>();
+builder.Services.AddScoped<IPaymentMethodsRepository, PaymentMethodsRepository>();
 builder.Services.AddScoped<IMembershipTypeRepository, MembershipTypeRepository>();
 
 
@@ -136,6 +143,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
+
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
 app.UseCors("MyPolicy");
 

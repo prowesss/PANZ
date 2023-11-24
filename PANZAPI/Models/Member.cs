@@ -7,6 +7,11 @@ namespace PANZAPI.Models
 {
     public class Member : BaseEntity
     {
+        public Member()
+        {
+            this.IsActive = true;
+        }
+
         [Key]
         public Guid Id { get; set; }
 
@@ -27,10 +32,10 @@ namespace PANZAPI.Models
         public string ImageUrl { get; set; }
 
         [Required(ErrorMessage = "Gender is required.")]
-        public GenderEnum Gender { get; set; }
+        public string Gender { get; set; }
 
         [Required(ErrorMessage = "Residency Status is required.")]
-        public ResidencyStatusEnum ResidencyStatus { get; set; }
+        public string ResidencyStatus { get; set; }
 
         [Phone(ErrorMessage = "Invalid phone number.")]
         public string Phone { get; set; }
@@ -47,9 +52,8 @@ namespace PANZAPI.Models
 
         public string JobTitle { get; set; }
 
-        [ForeignKey("PaymentMethodId")]
-        public Guid PaymentMethodId { get; set; }
-        public PaymentMethod PaymentMethod { get; set; }
+        public Guid? PaymentMethodId { get; set; }
+        public virtual PaymentMethod? PaymentMethod { get; set; }
 
         public string PaymentReference { get; set; }
 

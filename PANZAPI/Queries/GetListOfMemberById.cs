@@ -1,15 +1,16 @@
 ﻿using MediatR;
 using PANZAPI.Models;
+using PANZAPI.ModelsSummary;
 
 namespace PANZAPI.Queries
 {
-    public class GetListOfMemberById : IRequest<Member>
+    public class GetListOfMemberById : IRequest<MemberSummary>
     {
         public Guid Id { get; set; }
 
-        public GetListOfMemberById(Guid Id)
+        public GetListOfMemberById(Guid id)
         {
-            Id = Id;
+            Id = id;
         }
     }
 }

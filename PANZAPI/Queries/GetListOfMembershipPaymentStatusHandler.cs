@@ -1,10 +1,11 @@
 ﻿using MediatR;
 using PANZAPI.Models;
+using PANZAPI.ModelsSummary;
 using PANZAPI.Repositories.MemberPaymentStatus;
 
 namespace PANZAPI.Queries
 {
-    public class GetListOfMembershipPaymentStatusHandler : IRequestHandler<GetListOfMembershipPaymentStatus, IEnumerable<MembershipPaymentStatus>>
+    public class GetListOfMembershipPaymentStatusHandler : IRequestHandler<GetListOfMembershipPaymentStatus, IEnumerable<MembershipPaymentStatusSummary>>
     {
         private readonly IMemberPaymentStatusRepository _paymentStatusRepo;
 
@@ -13,9 +14,11 @@ namespace PANZAPI.Queries
             _paymentStatusRepo = paymentStatusRepo;
         }
 
-        public async Task<IEnumerable<MembershipPaymentStatus>> Handle(GetListOfMembershipPaymentStatus request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<MembershipPaymentStatusSummary>> Handle(GetListOfMembershipPaymentStatus request, CancellationToken cancellationToken)
         {
-            return await _paymentStatusRepo.GetMembershipPaymentStatusList();
+            var PaymentStatus =  await _paymentStatusRepo.GetMembershipPaymentStatusList();
+
+            return PaymentStatus.Select(x => new MembershipPaymentStatusSummary(x));
         }
     }
 }

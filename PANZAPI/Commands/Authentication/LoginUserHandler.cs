@@ -1,12 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
-using PANZAPI.Models.Authentication.Login;
 using PANZAPI.Models.Authentication;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.Extensions.Configuration;
 
 namespace PANZAPI.Commands.Authentication
 {
@@ -40,7 +38,9 @@ namespace PANZAPI.Commands.Authentication
                 var jwtToken = GetToken(authClaims);
 
                 return new UserToken
-                {
+                {   
+                    Id = user.Id,
+                    userName = user.UserName,
                     Token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
                     Expiration = jwtToken.ValidTo
                 };

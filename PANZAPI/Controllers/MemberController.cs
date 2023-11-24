@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PANZAPI.Commands.Member;
 using PANZAPI.Models;
+using PANZAPI.ModelsSummary;
 using PANZAPI.Queries;
+using Stripe.Checkout;
 
 namespace PANZAPI.Controllers
 {
@@ -19,7 +21,7 @@ namespace PANZAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Member>>> GetAllMembers()
+        public async Task<ActionResult<List<MemberSummary>>> GetAllMembers()
         {
             var query = new GetListOfMember();
             var result = await _mediator.Send(query);
@@ -37,11 +39,51 @@ namespace PANZAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMember([FromBody] CreateMember request)
         {
-            
-                var memberId = await _mediator.Send(request);
-                return Ok($"Member added successfully with ID: {memberId}");
-           
+                var member = await _mediator.Send(request);
+                return Ok(member);
         }
+
+        [HttpPost("{id}/payment")]
+        public async Task<IActionResult> CreateMemberPayment([FromBody] CreateMemberPayment request)
+        {
+            var member = await _mediator.Send(request);
+            return Ok(member);
+        }
+
+        [HttpPost("payment/success")]
+        public async Task<IActionResult> PaymentSuccess()
+        {
+            try
+            {
+                if (!TryGetQueryString("memberId", out string memberId))
+                {
+                    return BadRequest("Invalid memberId");
+                }
+
+                var request = new CreateMemberPayment()
+                {
+                    PaymentMethodName = "Bank",
+                    MemberId = new Guid(memberId),
+                };
+
+                if(TryGetQueryString("sessionId", out string sessionId)){
+                    var sessionService = new SessionService();
+                    var session = sessionService.Get(sessionId);
+                    request.PaymentMethodName = "Stripe";
+                    request.PaymentSessionId = sessionId;
+                    request.PaymentReference = session.PaymentIntentId.ToString();
+                }
+
+                await _mediator.Send(request);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] UpdateMember request)
@@ -52,11 +94,17 @@ namespace PANZAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(DeleteMember request)
+        public async Task<IActionResult> Delete(Guid id)
         {
-                var result = new DeleteMember { Id = request.Id };
+                var result = new DeleteMember { Id = id };
                 await _mediator.Send(result);
-                return Ok($"Member with ID {request.Id} soft deleted successfully.");
+                return NoContent();
+        }
+
+        private bool TryGetQueryString(string key, out string value)
+        {
+            value = Request.Query[key].FirstOrDefault();
+            return !string.IsNullOrEmpty(value);
         }
     }
 }

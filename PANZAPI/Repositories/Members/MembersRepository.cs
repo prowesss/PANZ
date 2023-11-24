@@ -14,12 +14,23 @@ namespace PANZAPI.Repositories.Members
 
         public async Task<IEnumerable<Member>> GetListOfMembers()
         {
-            return await _context.Members.ToListAsync();
+            return await _context.Members
+                .Include(m => m.MembershipPaymentStatus)
+                .Include(m => m.MembershipStatus)
+                .Include(m => m.MembershipType)
+                .Include(m => m.PaymentMethod)
+                .Where(m => m.IsActive).ToListAsync();
         }
 
         public async Task<Member> GetMemberById(Guid Id)
         {
-            return await _context.Members.FindAsync(Id);
+            return await _context.Members
+              .Include(m => m.MembershipPaymentStatus)
+              .Include(m => m.MembershipStatus)
+              .Include(m => m.MembershipType)
+              .Include(m => m.PaymentMethod)
+              .Where(m => m.IsActive)
+              .FirstOrDefaultAsync(m => m.Id == Id);
         }
 
         public async Task AddMember(Member member)

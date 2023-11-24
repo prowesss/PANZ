@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using PANZAPI.Commands.Payment;
 using PANZAPI.Models;
 using PANZAPI.Queries;
