@@ -2,8 +2,7 @@
 
   <app-membership-type-card *ngIf="selectedMembershipType === undefined" [membershipTypes]="membershipTypes"
     (onMembershipTypeSelect)="selectMembershipType($event)"></app-membership-type-card>
-
-
+    
   <div *ngIf="selectedMembershipType !== undefined">
     <mat-card>
       <mat-card-content class="header">

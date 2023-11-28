@@ -1,0 +1,43 @@
+.example-container {
+    position: absolute;
+    top: 60px;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+}
+
+mat-icon {
+    margin-right: 8px;
+    /* Adjust the icon spacing as needed */
+    min-width: 60px;
+    /* Set a minimum width for the icon */
+}
+
+.example-sidenav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#sidenav.nav-collapse,
+.example-sidenav.nav-collapse {
+    width: 60px;
+}
+
+#sidenav.nav-expand,
+.example-sidenav.nav-expand {
+    width: 235px;
+
+    .toggle-icon {
+        display: flex;
+        
+        mat-icon {
+            display: flex;
+            width: auto;
+            justify-content: flex-end;
+        }
+    }
+}
+
+
+

@@ -5,11 +5,9 @@ import { RegisterMemberComponent } from './pages/register-member/register-member
 import { ViewMemberComponent } from './pages/view-member/view-member.component';
 
 const routes: Routes = [
-// { path: ':id', component: ViewMemberComponent },
 { path: 'edit/:id', component: EditMemberComponent },
 { path: 'create', component: RegisterMemberComponent },
 { path: 'view/:id', component: ViewMemberComponent },
-
 ];
 
 

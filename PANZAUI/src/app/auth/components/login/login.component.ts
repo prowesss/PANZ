@@ -41,11 +41,8 @@ export class LoginComponent implements OnInit{
     this.authService.login(credentials).subscribe({
       next:(data) => {
         this.loginForm.reset();
-        this.authService.storeToken(data.token);
-        this.authService.setUsername(credentials.username);
-        this.router.navigate(['member/create']);
+        this.router.navigate(['']);
         this.openSnackBar('Login Successful');
-      
       },
       error(err) {
         console.error("Error", err);

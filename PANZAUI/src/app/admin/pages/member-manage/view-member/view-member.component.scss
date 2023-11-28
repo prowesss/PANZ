@@ -1,3 +1,94 @@
+// /* member-view.component.css */
+
+// .member-details-card {
+//   width: 900px;
+//   margin: 20px auto;
+//   border-radius: 10px;
+//   overflow: hidden;
+//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+//   font-family: 'Arial', sans-serif; /* Set your desired font family */
+// }
+
+// .header-content {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding: 15px;
+//   background-color: #4b4c4d;
+//   color: white;
+//   border-top-left-radius: 10px;
+//   border-top-right-radius: 10px;
+// }
+
+// .title {
+//   font-size: 24px;
+//   font-weight: bold;
+// }
+
+// .content-container {
+//   display: flex;
+//   justify-content: space-between;
+//   padding: 20px;
+// }
+
+// .left-section,
+// .right-section {
+//   width: 48%;
+// }
+
+// .left-section-inner,
+// .right-section-inner {
+//   padding: 20px;
+//   background-color: #f5f5f5;
+//   border-radius: 5px;
+// }
+
+// .member-image {
+//   width: 150px;
+//   height: 150px;
+//   object-fit: cover;
+//   border-radius: 20%;
+// }
+
+// .details-table {
+//   width: 100%;
+//   margin-top: 20px;
+//   border-collapse: collapse;
+// }
+
+// .details-table th,
+// .details-table td {
+//   padding: 10px;
+//   text-align: left;
+//   border-bottom: 1px solid #ddd; /* Add a line between rows */
+// }
+
+// .details-table th {
+//   background-color: #f2f2f2; /* Add a background color to header cells */
+// }
+
+// .right-section-inner h2,
+// .left-section-inner h2 {
+//   color: #333;
+//   font-size: 20px;
+//   font-weight: bold;
+//   margin-bottom: 10px;
+// }
+
+// .mat-card-actions {
+//   display: flex;
+//   justify-content: flex-end;
+//   padding: 10px;
+//   border-top: 1px solid #e0e0e0;
+// }
+
+// /* Additional styles for buttons */
+// button {
+//   font-family: 'Arial', sans-serif; /* Set your desired font family */
+//   font-size: 14px;
+//   font-weight: bold;
+// }
+
 /* member-view.component.css */
 
 .member-details-card {
@@ -6,7 +97,13 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif; /* Set your desired font family */
+  font-family: 'Arial', sans-serif;
+}
+
+.content-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
 }
 
 .header-content {
@@ -25,12 +122,6 @@
   font-weight: bold;
 }
 
-.content-container {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-}
-
 .left-section,
 .right-section {
   width: 48%;
@@ -41,6 +132,13 @@
   padding: 20px;
   background-color: #f5f5f5;
   border-radius: 5px;
+}
+
+.bank-details-section {
+  margin-top: 20px; /* Add margin at the top to create space between the sections */
+  background-color: #d0e0c5;
+  border-radius: 5px;
+  padding: 20px;
 }
 
 .member-image {
@@ -60,19 +158,36 @@
 .details-table td {
   padding: 10px;
   text-align: left;
-  border-bottom: 1px solid #ddd; /* Add a line between rows */
+  border-bottom: 1px solid #ddd;
 }
 
 .details-table th {
-  background-color: #f2f2f2; /* Add a background color to header cells */
+  background-color: #f2f2f200;
 }
 
 .right-section-inner h2,
-.left-section-inner h2 {
+.left-section-inner h2,
+.bank-inner h2 {
   color: #333;
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
+}
+
+.bank-inner {
+  margin: 20px; /* Adjust margin as needed */
+}
+
+.payment-instructions {
+  font-style: italic;
+  color: #555; /* Adjust color as needed */
+}
+
+.separator {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 2px solid #306077; /* Adjust color as needed */
 }
 
 .mat-card-actions {
@@ -82,9 +197,8 @@
   border-top: 1px solid #e0e0e0;
 }
 
-/* Additional styles for buttons */
 button {
-  font-family: 'Arial', sans-serif; /* Set your desired font family */
+  font-family: 'Arial', sans-serif;
   font-size: 14px;
   font-weight: bold;
 }

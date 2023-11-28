@@ -90,25 +90,14 @@
         <div *ngIf="member?.paymentMethodUsed === 'Bank'" class="bank-details-section">
           <div class="bank-inner">
   
-            <h2>Complete Payment</h2>
-            <p class="payment-instructions">To activate your membership, kindly complete your payment via bank transfer to the following bank details:
-              <strong>
-                Please include the reference number provided below when making the transaction.
-              </strong> </p>
+            <h2>Verify Payment</h2>
+            <p class="payment-instructions">User {{ member?.firstName }},
+
+               has initiated the activation of their membership via a bank transfer payment with the following reference:
+                
+              <strong> Please verify the payment with the bank and update the user's membership status accordingly.</strong>
             <hr class="separator">
             <table class="details-table">
-            <tr>
-              <th>Bank Name</th>
-              <td>Anz</td>
-            </tr>
-            <tr>
-              <th>Account Holder Name</th>
-              <td>Panz</td>
-            </tr>
-            <tr>
-              <th>Account Number</th>
-              <td>1234-23342-2232-00</td>
-            </tr>
             <tr>
               <th>Reference</th>
               <td>{{member?.paymentReference}}</td>
