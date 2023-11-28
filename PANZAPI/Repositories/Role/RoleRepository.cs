@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace PANZAPI.Repositories.Role
 {
@@ -9,6 +10,16 @@ namespace PANZAPI.Repositories.Role
         public RoleRepository(RoleManager<IdentityRole> roleManager)
         {
             _roleManager = roleManager;
+        }
+
+        public async Task<IdentityRole> GetRoleByIdAsync(string roleId)
+        {
+            return await _roleManager.FindByIdAsync(roleId);
+        }
+
+        public async Task<IEnumerable<IdentityRole>> GetAllRolesAsync()
+        {
+            return await _roleManager.Roles.ToListAsync();
         }
 
         public async Task<IdentityRole> CreateRoleAsync(string roleName)

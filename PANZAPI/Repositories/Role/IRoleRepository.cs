@@ -9,5 +9,7 @@ namespace PANZAPI.Repositories.Role
         Task<IdentityRole> GetRoleByNameAsync(string roleName);
         Task<bool> UpdateRoleAsync(IdentityRole role);
         Task<bool> DeleteRoleAsync(string roleName);
+        Task<IEnumerable<IdentityRole>> GetAllRolesAsync();
+        Task<IdentityRole> GetRoleByIdAsync(string roleId);
     }
 }

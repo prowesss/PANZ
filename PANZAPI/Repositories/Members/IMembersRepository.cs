@@ -8,5 +8,6 @@ namespace PANZAPI.Repositories.Members
         Task<Member> GetMemberById(Guid Id);
         Task AddMember(Member member);
         Task UpdateMember(Member member);
+        Task<Member> GetMembershipDetailsByUserId(string userId);
     }
 }
