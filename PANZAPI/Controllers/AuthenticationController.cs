@@ -53,6 +53,7 @@ namespace PANZAPI.Controllers
         public async Task<IActionResult> Login([FromBody] LoginUser request)
         {
             var userToken = await _mediator.Send(request);
+
             return Ok(userToken);
         }
 

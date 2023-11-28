@@ -36,6 +36,21 @@ namespace PANZAPI.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("api/members/user/{userId}")]
+        public async Task<IActionResult> GetMemberDetailsByUserId(string userId)
+        {
+            var query = new GetMembershipDetailsByUserID(userId);
+            var result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateMember([FromBody] CreateMember request)
         {

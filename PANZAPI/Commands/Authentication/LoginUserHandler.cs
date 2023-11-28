@@ -42,7 +42,8 @@ namespace PANZAPI.Commands.Authentication
                     Id = user.Id,
                     userName = user.UserName,
                     Token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
-                    Expiration = jwtToken.ValidTo
+                    Expiration = jwtToken.ValidTo,
+                    IsAdmin = userRoles.Contains("Admin")
                 };
             }
             throw new UnauthorizedAccessException("Invalid username or password");

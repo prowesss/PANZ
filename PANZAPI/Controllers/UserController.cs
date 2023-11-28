@@ -6,6 +6,7 @@ using PANZAPI.Commands.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using PANZAPI.Commands.Roles;
+using System.Security.Claims;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -70,6 +71,38 @@ public class UserController : ControllerBase
         var command = new AssignSuperAdminRole { UserId = userId };
         var result = await _mediator.Send(command);
         return Ok();
+    }
+
+    [HttpGet("userinfo")]
+    public async Task<IActionResult> GetUserInfoAsync()
+    {
+        // Retrieve the current user's email from the claims
+        var emailClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+
+        if (emailClaim == null)
+        {
+            return BadRequest("Email claim not found.");
+        }
+
+        var email = emailClaim.Value;
+
+        // Use UserManager to find the user based on their email
+        var user = await _userManager.FindByEmailAsync(email);
+
+        if (user == null)
+        {
+            return NotFound($"User with email {email} not found.");
+        }
+        var roleClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+        // You can return any user information you need
+        var userInfo = new
+        {
+            Id = user.Id,
+            UserName = user.UserName,
+            IsAdmin = roleClaim.Value == "Admin"
+        };
+
+        return Ok(userInfo);
     }
 }
 

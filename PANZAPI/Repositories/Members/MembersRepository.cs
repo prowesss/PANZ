@@ -33,11 +33,23 @@ namespace PANZAPI.Repositories.Members
               .FirstOrDefaultAsync(m => m.Id == Id);
         }
 
+        public async Task<Member> GetMembershipDetailsByUserId(string userId)
+        {
+            return await _context.Members
+       .Include(m => m.MembershipPaymentStatus)
+       .Include(m => m.MembershipStatus)
+       .Include(m => m.MembershipType)
+       .Include(m => m.PaymentMethod)
+       .Where(m => m.IsActive)
+       .FirstOrDefaultAsync(m => m.UserId == userId);
+        }
+
         public async Task AddMember(Member member)
         {
             _context.Members.Add(member);
             await _context.SaveChangesAsync();
         }
+
 
         public async Task UpdateMember(Member member)
         {
