@@ -1,0 +1,41 @@
+<mat-sidenav-container fullscreen>
+  <mat-sidenav #sidenav mode="side" opened class="example-sidenav" fixedInViewport="0" [fixedTopGap]="60"
+    [class.nav-collapse]="navState !== 'expanded'" [class.nav-expand]="navState === 'expanded'">
+    <mat-nav-list>
+      <a mat-list-item class="toggle-icon" (click)="toggleNav()">
+        <mat-icon *ngIf="navState !== 'expanded'">menu</mat-icon>
+        <mat-icon *ngIf="navState === 'expanded'">menu_open</mat-icon>
+      </a>
+      <a mat-list-item routerLink="/dashboard">
+        <mat-icon>dashboard</mat-icon>
+        <span *ngIf="navState === 'expanded'">Dashboard</span>
+      </a>
+      <a mat-list-item routerLink="/admin/members">
+        <mat-icon>people</mat-icon>
+        <span *ngIf="navState === 'expanded'">Members</span>
+      </a>
+      <a mat-list-item routerLink="/admin/payment-methods">
+        <mat-icon>payment</mat-icon>
+        <span *ngIf="navState === 'expanded'">Payment</span>
+      </a>
+      <a mat-list-item routerLink="/admin/users">
+        <mat-icon>person</mat-icon>
+        <span *ngIf="navState === 'expanded'">User</span>
+      </a>
+      <a mat-list-item routerLink="/admin/roles">
+        <mat-icon>security</mat-icon>
+        <span *ngIf="navState === 'expanded'">Role</span>
+      </a>
+      <a mat-list-item routerLink="/admin/membership-types">
+        <mat-icon>manage_accounts</mat-icon>
+        <span *ngIf="navState === 'expanded'">MembershipType</span>
+      </a>
+      <!-- Other navigation items go here -->
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content [ngStyle]="{ 'margin-left.px': contentMargin , 'margin-top.px': '65'}">
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

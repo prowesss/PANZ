@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
 import { MainPageComponent } from './pages/user-manage/main-page/main-page.component';
+import { MainPageRolesComponent } from './pages/user-roles-manage/main-page-roles/main-page-roles.component';
 import { CreateUserComponent } from './pages/user-manage/create-user/create-user.component';
 import { EditUserComponent } from './pages/user-manage/edit-user/edit-user.component';
 import { ViewUserComponent } from './pages/user-manage/view-user/view-user.component';
@@ -17,12 +18,14 @@ import { ViewMembershipTypeComponent } from './pages/membership-type-manage/view
 import { MainPaymentMethodComponent } from './pages/payment-method-manage/main-payment-method/main-payment-method.component';
 import { ViewPaymentMethodComponent } from './pages/payment-method-manage/view-payment-method/view-payment-method.component';
 import { ViewMemberComponent } from './pages/member-manage/view-member/view-member.component';
+import { LayoutModule } from '../layouts/layout.module';
 
 @NgModule({
   declarations: [
     MainPageComponent,
     CreateUserComponent,
     EditUserComponent,
+    MainPageRolesComponent,
     ViewUserComponent,
     DashboardComponent,
     AdminNavbarComponent,
@@ -33,13 +36,14 @@ import { ViewMemberComponent } from './pages/member-manage/view-member/view-memb
     ViewMembershipTypeComponent,
     MainPaymentMethodComponent,
     ViewPaymentMethodComponent,
-    ViewMemberComponent
+    ViewMemberComponent,
   ],
   imports: [
     CommonModule,
     MaterialModule,
     SharedModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    LayoutModule
   ],
   exports: [
     AdminNavbarComponent,

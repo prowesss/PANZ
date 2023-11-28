@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MemberService } from '../../services/member.service';
@@ -13,6 +12,7 @@ import { MembershipType } from 'src/app/models/membership-type.model';
 import { AuthService } from 'src/app/auth/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MemberCheckoutComponent } from 'src/app/shared/components/member-checkout/member-checkout.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register-member',
@@ -23,7 +23,7 @@ export class RegisterMemberComponent implements OnInit {
   personalInfoFormGroup: FormGroup = new FormGroup([]);
   workFormGroup: FormGroup = new FormGroup([]);
   membershipFormGroup: FormGroup = new FormGroup([]);
-  loggedInUser = '';
+  userInfo: any
   isLoading = false;
 
   public paymentMethods: PaymentMethod[] = [];
@@ -39,13 +39,14 @@ export class RegisterMemberComponent implements OnInit {
     private paymentMethodService: PaymentMethodService,
     private membershipStatusService: MembershipStatusService,
     private membershipTypesService: MembershipTypeService,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private snackBar: MatSnackBar) {
   }
 
 
   ngOnInit(): void {
-    this.authService.username$.subscribe((newUsername) => {
-      this.loggedInUser = newUsername;
+    this.authService.user$.subscribe((user) => {
+      this.userInfo = user;
     });
 
     this.isLoading = true;
@@ -67,6 +68,10 @@ export class RegisterMemberComponent implements OnInit {
   }
 
   selectMembershipType(event: any) {
+    if(!this.userInfo?.isLoggedIn){
+      this.snackBar.open("Please Login or register before proceeding with the member registration", "Close");
+      return;
+    }
     this.selectedMembershipType = event;
     this.membershipFormGroup.get('membershipTypeId')?.setValue(event.id)
   }
@@ -122,7 +127,7 @@ export class RegisterMemberComponent implements OnInit {
     }
     
     const createMember: CreateMember = {
-      userId: "314625c0-c4c8-4907-91a0-e7164d34f63d",
+      userId: this.userInfo.userId,
       email: this.personalInfoFormGroup.get('email')!.value || '',
       firstName: this.personalInfoFormGroup.get('firstName')!.value || '',
       lastName: this.personalInfoFormGroup.get('lastName')!.value || '',

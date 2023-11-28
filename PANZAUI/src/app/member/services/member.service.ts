@@ -7,6 +7,7 @@ import { CreateMember, Member } from 'src/app/models/member.model';
   providedIn: 'root'
 })
 export class MemberService {
+ 
 
   private readonly httpHeader = {
     headers: new HttpHeaders({
@@ -22,6 +23,10 @@ export class MemberService {
 
   getMemberById(id: string): Observable<Member> {
     return this.http.get<Member>(`https://localhost:7106/api/member/${id}`);
+  }
+
+  getMembershipDetailsByUserId(id: any): Observable<Member> {
+    return this.http.get<Member>(`https://localhost:7106/api/member/user/${id}`);
   }
 
   addMember(createMember: CreateMember): Observable<Member> {

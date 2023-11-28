@@ -10,6 +10,9 @@ import { MainPaymentMethodComponent } from './pages/payment-method-manage/main-p
 import { MemberCheckoutComponent } from '../shared/components/member-checkout/member-checkout.component';
 import { MainMembersComponent } from './pages/member-manage/main-members/main-members.component';
 import { ViewMemberComponent } from './pages/member-manage/view-member/view-member.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { MainPageRolesComponent } from './pages/user-roles-manage/main-page-roles/main-page-roles.component';
 
 const routes: Routes = [
   { path: 'users', component: MainPageComponent },
@@ -18,13 +21,13 @@ const routes: Routes = [
   { path: 'user', component: CreateUserComponent },
   { path: 'membership-types', component: MainMembershipTypeComponent},
   { path: 'membership-type/:id', component: ViewMembershipTypeComponent},
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'payment-methods', component: MainPaymentMethodComponent},
   { path: 'payment-method/:id', component: MainPaymentMethodComponent},
   { path: 'checkout', component: MemberCheckoutComponent},
   { path: 'members', component: MainMembersComponent},
   { path: 'member/:id', component: ViewMemberComponent},
-
-
+  { path: 'roles', component: MainPageRolesComponent},
 
 
 ];

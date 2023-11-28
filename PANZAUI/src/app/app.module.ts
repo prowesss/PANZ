@@ -7,13 +7,12 @@ import { AuthModule } from './auth/auth.module';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminModule } from './admin/admin.module';
-import { HomeComponent } from './home/home.component';
 import { MemberModule } from './member/member.module';
+import { LayoutModule } from './layouts/layout.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HomeComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +22,8 @@ import { MemberModule } from './member/member.module';
     AuthModule,
     AdminModule,
     MemberModule,
-    SharedModule
+    SharedModule,
+    LayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
