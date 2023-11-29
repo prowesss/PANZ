@@ -69,43 +69,5 @@ namespace PANZAPI.Controllers
                 });
             }
         }
-
-
-        //[HttpPost("payment/success")]
-        //public async Task<IActionResult> PaymentSuccess()
-        //{
-        //    try
-        //    {
-        //        if (!TryGetQueryString("memberId", out string memberId) || !TryGetQueryString("sessionId", out string sessionId))
-        //        {
-        //            return BadRequest("Invalid memberId or sessionId");
-        //        }
-        //        var paymentMethods = await _paymentMethodRepo.GetPaymentMethods();
-        //        var stripe = paymentMethods.FirstOrDefault(x=>x.Name.Equals("Stripe"));
-        //        var sessionService = new SessionService();
-        //        var session = sessionService.Get(sessionId);
-        //        var request = new CreateMemberPayment()
-        //        {
-        //            PaymentMethodId = stripe.Id,
-        //            MemberId = new Guid(memberId),
-        //            PaymentSessionId = sessionId,
-        //            PaymentReference= session.PaymentIntentId.ToString(),
-        //        };
-
-        //        await _mediator.Send(request);
-        //        return Ok("Payment successful");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception or handle it as needed
-        //        return StatusCode(500, "Internal Server Error");
-        //    }
-        //}
-
-        private bool TryGetQueryString(string key, out string value)
-        {
-            value = Request.Query[key].FirstOrDefault();
-            return !string.IsNullOrEmpty(value);
-        }
     }
 }

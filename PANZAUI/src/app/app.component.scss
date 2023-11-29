@@ -1,6 +1,8 @@
 ::ng-deep div.panz-admin-body {
     display: flex;
     flex-direction: column;
-    padding: 2rem 10rem;
+    padding: 4rem 10rem;
     width: 100%;
+    height: 100%;
+    overflow: hidden;
   }

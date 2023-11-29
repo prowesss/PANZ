@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using PANZAPI.Repositories.Members;
 
 namespace PANZAPI.Commands.Authentication
 {
@@ -12,11 +13,13 @@ namespace PANZAPI.Commands.Authentication
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly IMembersRepository _memberRepo;
 
-        public LoginUserHandler(UserManager<IdentityUser> userManager, IConfiguration configuration)
+        public LoginUserHandler(UserManager<IdentityUser> userManager, IMembersRepository memberRepo, IConfiguration configuration)
         {
             _userManager = userManager;
             _configuration = configuration;
+            _memberRepo = memberRepo;
         }
 
         public async Task<UserToken> Handle(LoginUser request, CancellationToken cancellationToken)
@@ -37,13 +40,16 @@ namespace PANZAPI.Commands.Authentication
                 }
                 var jwtToken = GetToken(authClaims);
 
+                var member = await _memberRepo.GetMembershipDetailsByUserId(user.Id);
+
                 return new UserToken
                 {   
                     Id = user.Id,
-                    userName = user.UserName,
+                    UserName = user.UserName,
                     Token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
                     Expiration = jwtToken.ValidTo,
-                    IsAdmin = userRoles.Contains("Admin")
+                    IsAdmin = userRoles.Contains("Admin"),
+                    MemberId = member?.Id,
                 };
             }
             throw new UnauthorizedAccessException("Invalid username or password");

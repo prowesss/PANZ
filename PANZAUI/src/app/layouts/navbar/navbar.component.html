@@ -12,16 +12,15 @@
   </mat-toolbar>
 
   <ng-container *ngIf="isAdminRoute(); else content">
-    <app-side-nav #childSideNav>
+    <app-side-nav #childSideNav class="sidebar-content-container">
       <router-outlet></router-outlet>
     </app-side-nav>
   </ng-container>
 
   <ng-template #content>
-    <ng-container class="content-container">
+    <div class="content-container">
       <router-outlet></router-outlet>
-    </ng-container>
-    
+    </div>
   </ng-template>
 </div>
 
@@ -30,7 +29,7 @@
     <mat-icon>dashboard</mat-icon>
     <span>Admin Dashboard</span>
   </button>
-  <button mat-menu-item *ngIf="loggedIn">
+  <button mat-menu-item *ngIf="loggedIn" (click)="onProfile()">
     <mat-icon>assignment_ind</mat-icon>
     <span>Profile</span>
   </button>

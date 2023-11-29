@@ -3,12 +3,14 @@
   <div *ngFor="let membershipType of membershipTypes" class="inner-container">
     <mat-card>
       <mat-card-header>
-        <mat-card-title>{{membershipType.name}}</mat-card-title>
-        <mat-card-subtitle>Cost: ${{ membershipType.cost }}</mat-card-subtitle>
-        <mat-card-subtitle>Valid Years: {{ membershipType.noOfYears }}</mat-card-subtitle>
+        <mat-card-title>{{membershipType.name}} Membership</mat-card-title>
       </mat-card-header>
-      <mat-card-actions>
-        <button mat-button (click)="selectMembershipType(membershipType)">Select</button>
+      <mat-card-content>
+        <p><strong>Cost: ${{ membershipType.cost }}</strong></p>
+        <p><strong>Valid Years: {{ membershipType.noOfYears }} years</strong></p>
+      </mat-card-content>
+      <mat-card-actions class="card-action">
+        <button mat-raised-button color="primary" (click)="selectMembershipType(membershipType)">Select</button>
       </mat-card-actions>
     </mat-card>
   </div>

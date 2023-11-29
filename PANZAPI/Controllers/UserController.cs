@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using PANZAPI.Commands.Roles;
 using System.Security.Claims;
+using PANZAPI.Repositories.Members;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -14,11 +15,13 @@ public class UserController : ControllerBase
 {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IMediator _mediator;
+    private readonly IMembersRepository _memberRepo;
 
-    public UserController(UserManager<IdentityUser> userManager, IMediator mediator)
+    public UserController(UserManager<IdentityUser> userManager, IMembersRepository membersRepository, IMediator mediator)
     {
         _userManager = userManager;
         _mediator = mediator;
+        _memberRepo = membersRepository;
     }
 
     [HttpGet("list")]
@@ -94,12 +97,15 @@ public class UserController : ControllerBase
             return NotFound($"User with email {email} not found.");
         }
         var roleClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+
+        var member = await _memberRepo.GetMembershipDetailsByUserId(user.Id);
         // You can return any user information you need
         var userInfo = new
         {
             Id = user.Id,
             UserName = user.UserName,
-            IsAdmin = roleClaim.Value == "Admin"
+            IsAdmin = roleClaim.Value == "Admin",
+            MemberId = member?.Id
         };
 
         return Ok(userInfo);

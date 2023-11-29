@@ -11,6 +11,7 @@ import { Member } from 'src/app/models/member.model';
 export class ViewMemberComponent implements OnInit{
 
   public member: Member | undefined;
+  editing: boolean = false;
   public isLoading = false;
 
   constructor(
@@ -40,6 +41,22 @@ export class ViewMemberComponent implements OnInit{
 
   onBackClick(){
     this.router.navigate(['admin/members'])
+  }
+  onEditClick(): void {
+    this.editing = true;
+  }
+
+  onSaveClick(): void {
+    if (this.member) {
+      this.memberService.editMember(this.member).subscribe(updatedMember => {
+        this.member = updatedMember;
+        this.editing = false;
+      });
+    }
+  }
+
+  onCancelClick(): void {
+    this.editing = false;
   }
 }
 

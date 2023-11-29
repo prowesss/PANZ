@@ -2,6 +2,7 @@ import {Component, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { MemberService } from 'src/app/member/services/member.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,15 +15,24 @@ export class NavbarComponent implements OnDestroy {
   username: string | null = null;
 
   private authSubscription: Subscription;
+  private memberIdSubscription: Subscription;
+  memberId: string | null = null;
 
   constructor(private authService: AuthService,
-    private router: Router) {
+    private router: Router,
+    private memberService: MemberService) {
 
     this.authSubscription = this.authService.user$.subscribe((user) => {
       this.username = user?.userName;
       this.loggedIn = !!user?.userName;
       this.isAdmin = user?.isAdmin;
     });
+
+    this.memberIdSubscription = this.memberService.currentMemberId.subscribe(
+      (memberId) => {
+        this.memberId = memberId;
+      }
+    );
   }
 
   navigateToHome(): void {
@@ -41,6 +51,11 @@ export class NavbarComponent implements OnDestroy {
     this.router.navigate(['/auth/signup']);
   }
 
+  onProfile() {
+    if (this.memberId) {
+      this.router.navigate(['/member/view', this.memberId]);
+    }
+  }
   onLogout() {
     this.authService.logout();
   }
@@ -51,6 +66,7 @@ export class NavbarComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.authSubscription.unsubscribe();
+    this.memberIdSubscription.unsubscribe();
   }
 
 }
