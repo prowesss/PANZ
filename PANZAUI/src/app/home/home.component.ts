@@ -18,15 +18,15 @@ export class HomeComponent implements OnInit {
     this.authService.user$.subscribe((user) => {
       this.userInfo = user;
       if (user?.isLoggedIn) {
-       this.getMembershipDetailsByUserId();
+       this.getMembershipDetailsByUserId(user.userId);
       }else{
         this.router.navigate(['/member/create'])
       }
     });
 
   }
-  getMembershipDetailsByUserId() {
-    this.memberService.getMembershipDetailsByUserId(this.userInfo.id).subscribe({
+  getMembershipDetailsByUserId(userId: string) {
+    this.memberService.getMembershipDetailsByUserId(userId).subscribe({
       next: (result: any) => {
         if (result) {
           this.router.navigate(['/member/view', result.id]);

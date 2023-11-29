@@ -70,15 +70,21 @@ export class AuthService {
   login(userObj: loginCredential): Observable<userCredential> {
     return this.http.post<userCredential>(`${this.baseUrl}login`, userObj).pipe(
       tap((response: any) => {
-        const user = {
-          userName: response.userName,
-          isLoggedIn: true,
-          isAdmin: response.isAdmin || false, // Assuming "isAdmin" is a boolean property
-        };
-        this.setUser(user);
-        this.storeToken(response.token);
+        this.setUserInfo(response);
       })
     );
+  }
+  setUserInfo(userInfo: any) {
+    const user = {
+      userId : userInfo.id,
+      userName: userInfo.userName,
+      isLoggedIn: true,
+      isAdmin: userInfo.isAdmin || false,
+      memberId: userInfo.memberId // Assuming "isAdmin" is a boolean property
+    };
+    this.storeToken(userInfo.token);
+    this.setUser(user);
+    
   }
 
   setUsername(username: string | null): void {

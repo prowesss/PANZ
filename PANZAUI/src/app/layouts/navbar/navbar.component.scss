@@ -6,12 +6,19 @@
   bottom: 0;
   left: 0;
   right: 0;
+
+  .sidebar-content-container{
+    display: flex;
+    width: auto;
+  }
 }
 
 div.content-container {
   display: flex;
   height: 100%;
   margin-top: 4rem;
+  width: 100%;
+  justify-content: center;
 }
 
 .example-toolbar {

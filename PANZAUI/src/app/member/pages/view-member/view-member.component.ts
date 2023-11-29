@@ -24,6 +24,7 @@ export class ViewMemberComponent implements OnInit{
     this.isLoading = true;
     this.route.params.subscribe(params => {
       const memberId = params['id'];
+      this.memberService.changeMemberId(memberId); 
       this.getMember(memberId);
     });
   }

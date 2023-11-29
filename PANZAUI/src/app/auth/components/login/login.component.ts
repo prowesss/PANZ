@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit{
     this.authService.login(credentials).subscribe({
       next:(data) => {
         this.loginForm.reset();
-        this.router.navigate(['']);
+        this.router.navigate(['/']);
         this.openSnackBar('Login Successful');
       },
       error(err) {
